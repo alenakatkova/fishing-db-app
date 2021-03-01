@@ -2,16 +2,6 @@
     padding: 20px;
 }
 
-header {
-    padding-bottom: 15px;
-    text-align: center;
-    border-bottom: 1px solid #E5E5E5;
-}
-
-h1, h2 {
-    margin: 0;
-}
-
 .content-container {
     display: flex;
     flex-direction: row;
@@ -40,15 +30,4 @@ h1, h2 {
 
 .menu-link:hover {
     background-color: #E5E5E5;
-}
-
-footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    font-size: smaller;
-    text-align: right;
-    padding: 10px;
-    border-top: 1px solid #E5E5E5;
 }
