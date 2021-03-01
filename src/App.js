@@ -1,6 +1,16 @@
+import React, { useState } from 'react';
+import sendAsync from './renderer';
+
 import './App.css';
 
 function App() {
+  const [message, setMessage] = useState('SELECT * FROM boats');
+  const [response, setResponse] = useState();
+
+  function send(sql) {
+    sendAsync(sql).then((result) => setResponse(result));
+  }
+
   return (
     <div className="App-container">
       <header className="App-header">
@@ -27,6 +37,26 @@ function App() {
         </section>
 
       </div>
+      <article>
+        <p>
+          Say <i>ping</i> to the main process.
+        </p>
+        <input
+            type="text"
+            value={message}
+            onChange={({ target: { value } }) => setMessage(value)}
+        />
+        <button type="button" onClick={() => send(message)}>
+          Send
+        </button>
+        <br />
+        <p>Main process responses:</p>
+        <br />
+        <pre>
+                    {(response && JSON.stringify(response, null, 2)) ||
+                    'No query results yet!'}
+                </pre>
+      </article>
       <footer>Разработано Катковой А.А.</footer>
     </div>
   );
