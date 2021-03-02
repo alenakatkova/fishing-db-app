@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import sendAsync from './renderer';
 
+import Boats from "./Boats";
 import './App.css';
 
 function App() {
@@ -57,6 +58,7 @@ function App() {
                     'No query results yet!'}
                 </pre>
       </article>
+      <Boats/>
       <footer>Разработано Катковой А.А.</footer>
     </div>
   );

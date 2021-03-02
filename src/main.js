@@ -9,13 +9,9 @@ const sqlQueries = [ "CREATE TABLE IF NOT EXISTS boats (passport TEXT NOT NULL, 
 
 
 database.serialize(() => {
-  // Queries scheduled here will be serialized.
   database.run(sqlQueries[0])
       .run('INSERT INTO boats(passport, name, construction_date, weight, power) VALUES(?, ?, ?, ?, ?)', ['Raiko',"faiko","11.11",56,45]);
 });
-
-// close the database connection
-
 
 ipcMain.on('asynchronous-message', (event, arg) => {
   const sql = arg;
