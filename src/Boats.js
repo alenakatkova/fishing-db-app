@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import { Link } from "react-router-dom";
 import sendAsync from './renderer';
 import './forms.css';
 
@@ -20,6 +20,7 @@ function Boats() {
           <h1>Катера</h1>
         </header>
         <div>
+          <Link exact to="/" className="item">HOME</Link>
           <form className="form-container">
             <label htmlFor="passport">Паспорт №</label>
             <input type="text" name="passport" id="passport" placeholder="Номер паспорта" />
