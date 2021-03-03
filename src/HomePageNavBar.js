@@ -1,11 +1,7 @@
 import React from 'react';
 import {
-  HashRouter as Router,
-  Switch,
-  Route,
   Link
 } from "react-router-dom";
-import Boats from "./Boats";
 import './App.css';
 
 function HomePageNavBar() {
@@ -38,18 +34,4 @@ function HomePageNavBar() {
   );
 }
 
-// {/*<Switch>*/}
-// {/*  <Route path="/boats">*/}
-// {/*    <Boats />*/}
-// {/*  </Route>*/}
-// {/*  <Route path="/workers">*/}
-// {/*    <Boats />*/}
-// {/*  </Route>*/}
-// {/*  <Route path="/teams">*/}
-// {/*    <Boats />*/}
-// {/*  </Route>*/}
-// {/*  <Route path="/fishing-trips">*/}
-// {/*    <Boats />*/}
-// {/*  </Route>*/}
-// {/*</Switch>*/}
 export default HomePageNavBar;

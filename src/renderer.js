@@ -9,3 +9,4 @@ export default function send(message) {
     ipcRenderer.send('asynchronous-message', message);
   });
 };
+

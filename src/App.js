@@ -1,5 +1,4 @@
 import React from 'react';
-// import HomePageNavBar from "./HomePageNavBar";
 import './App.css';
 import Boats from "./Boats";
 import {
@@ -9,12 +8,19 @@ import {
 } from "react-router-dom";
 import HomePage from "./HomePage";
 
+import sendAsync from './renderer';
+
 function App() {
+
+ // const sqlQueries = [ "CREATE TABLE IF NOT EXISTS boats (passport TEXT NOT NULL, name TEXT NOT NULL, construction_date TEXT, weight INTEGER, power INTEGER)" ];
+  //sendAsync('INSERT INTO boats(passport, name, construction_date, weight, power) VALUES("kfkjebgfkjw","faiko","11.11",56,45)');
+  //
+  // database.serialize(() => {
+  //   database.run(sqlQueries[0])
+  //       .run('INSERT INTO boats(passport, name, construction_date, weight, power) VALUES(?, ?, ?, ?, ?)', ['Raiko',"faiko","11.11",56,45]);
+  // });
+
   return (
-    // <div className="App-container">
-    //   <header className="App-header">
-    //     <h1>База данных рыболовной станции</h1>
-    //   </header>
       <Router>
         <Switch>
           <Route exact path="/">
@@ -34,9 +40,6 @@ function App() {
           </Route>
         </Switch>
       </Router>
-      /*<HomePageNavBar/>*/
-    //   <footer>Разработано Катковой А.А.</footer>
-    // </div>
   );
 }
 
