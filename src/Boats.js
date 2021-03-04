@@ -7,9 +7,17 @@ import './tables.css';
 function Boats() {
   const [message, setMessage] = useState('SELECT * FROM boats');
   const [response, setResponse] = useState();
-  const [post, setPost] = useState({});
+  const [post, setPost] = useState({
+    passport:"",
+    name: "",
+    "construction-date": "",
+    weight: null,
+    power: null
+  });
 
   const db = new database('././public/db.sqlite3');
+
+  const currentDate = new Date().toISOString().split("T")[0];;
 
   const submit = (e) => {
     db
@@ -20,7 +28,7 @@ function Boats() {
         weight, 
         power) 
         VALUES(?, ?, ?, ?, ?)`,
-        [post.passport, post.name, post["construction-date"], post.weight, post.power]);
+        [post.passport, post.name, post["construction-date"].split("-").reverse().join("."), post.weight, post.power]);
     e.preventDefault();
   };
 
@@ -30,7 +38,20 @@ function Boats() {
             [id]);
   };
 
-
+  // const onUpdate = (id) => {
+  //   db.all(`SELECT *
+  //          FROM boats
+  //          WHERE passport  = ?`, id)
+  //       .then((data) => {
+  //     setPost({
+  //       passport:data["PASSPORT"],
+  //       name: data["NAME"],
+  //       "construction-date": data["CONSTRUCTION_DATE"],
+  //       weight: data["WEIGHT"],
+  //       power: data["POWER"]
+  //     })
+  //   })
+  // };
 
   const loadData = () => {
     db.all(message).then((data) => {
@@ -43,7 +64,7 @@ function Boats() {
               <td className="db-table-cell">{item["WEIGHT"]}</td>
               <td className="db-table-cell">{item["POWER"]}</td>
               <td className="db-table-cell">
-                <button className="db-table-button">Редактировать</button>
+                <button className="db-table-button" onClick={() => onUpdate(item["PASSPORT"])}>Редактировать</button>
                 <button className="db-table-button" onClick={() => onDelete(item["PASSPORT"])}>Удалить</button>
               </td>
             </tr>
@@ -71,6 +92,7 @@ function Boats() {
                 name="passport"
                 id="passport"
                 placeholder="Номер паспорта"
+                value={post.passport}
                 onChange={e => setPost({ ...post, passport: e.target.value })}
             />
             <label htmlFor="name">Название</label>
@@ -80,13 +102,16 @@ function Boats() {
                 name="name"
                 id="name"
                 placeholder="Название катера"
+                value={post.name}
                 onChange={e => setPost({ ...post, name: e.target.value })} />
             <label htmlFor="construction-date">Дата постройки</label>
             <input
                 className="input"
-                type="text"
+                type="date"
                 name="construction-date"
                 id="construction-date"
+                max={currentDate}
+                value={post["construction-date"]}
                 onChange={e => setPost({ ...post, "construction-date": e.target.value })} />
             <label htmlFor="weight">Вес</label>
             <input
@@ -95,6 +120,7 @@ function Boats() {
                 name="weight"
                 id="weight"
                 placeholder="Вес катера"
+                value={post.weight}
                 onChange={e => setPost({ ...post, weight: e.target.value })} />
             <label htmlFor="power">Мощность двигателя</label>
             <input
@@ -103,6 +129,7 @@ function Boats() {
                 name="power"
                 id="power"
                 placeholder="Мощность двигателя"
+                value={post.power}
                 onChange={e => setPost({ ...post, power: e.target.value })} />
             <input className="submit" type="submit" value="Отправить" />
           </form>
