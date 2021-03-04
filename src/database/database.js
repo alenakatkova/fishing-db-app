@@ -1,6 +1,6 @@
 const sqlite3 = window.require('sqlite3');
 
-class AppDAO {
+class Database {
   constructor(dbFilePath) {
     this.db = new sqlite3.Database(dbFilePath, (err) => {
       if (err) {
@@ -54,4 +54,4 @@ class AppDAO {
   }
 }
 
-export default AppDAO
+export default Database;
