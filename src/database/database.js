@@ -13,13 +13,15 @@ class Database {
 
   run(sql, params = []) {
     return new Promise((resolve, reject) => {
-      this.db.run(sql, params, function (err) {
+      //this.db.run(sql, params);
+      this.db.run(sql, params, (err, row) => {
         if (err) {
-          console.log('Error running sql ' + sql)
-          console.log(err)
+          console.log('Error running sql ' + sql);
+          console.log(err);
           reject(err)
-        } else {
-          resolve({ id: this.lastID })
+        }
+        else {
+          resolve(row);
         }
       })
     })
