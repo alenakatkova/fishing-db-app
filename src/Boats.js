@@ -20,9 +20,14 @@ function Boats() {
         weight, 
         power) 
         VALUES(?, ?, ?, ?, ?)`,
-        [post.passport, post.name, post["construction-date"], post.weight, post.power])
-        .then(data => console.log(data));
+        [post.passport, post.name, post["construction-date"], post.weight, post.power]);
     e.preventDefault();
+  };
+
+  const onDelete = (id) => {
+    db
+        .run(`DELETE FROM boats WHERE passport=?`,
+            [id]);
   };
 
 
@@ -31,7 +36,7 @@ function Boats() {
     db.all(message).then((data) => {
       setResponse(data
           .map((item, i) => [
-            <tr key={i}>
+            <tr key={item["PASSPORT"]}>
               <td className="db-table-cell">{item["PASSPORT"]}</td>
               <td className="db-table-cell">{item["NAME"]}</td>
               <td className="db-table-cell">{item["CONSTRUCTION_DATE"]}</td>
@@ -39,7 +44,7 @@ function Boats() {
               <td className="db-table-cell">{item["POWER"]}</td>
               <td className="db-table-cell">
                 <button className="db-table-button">Редактировать</button>
-                <button className="db-table-button">Удалить</button>
+                <button className="db-table-button" onClick={() => onDelete(item["PASSPORT"])}>Удалить</button>
               </td>
             </tr>
           ]))
