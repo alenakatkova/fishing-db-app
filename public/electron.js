@@ -1,5 +1,4 @@
 const electron = require('electron');
-require('../src/main');
 
 const { app } = electron;
 const { BrowserWindow } = electron;

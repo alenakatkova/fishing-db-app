@@ -8,8 +8,6 @@ import {
 } from "react-router-dom";
 import HomePage from "./HomePage";
 
-import sendAsync from './renderer';
-
 function App() {
 
  // const sqlQueries = [ "CREATE TABLE IF NOT EXISTS boats (passport TEXT NOT NULL, name TEXT NOT NULL, construction_date TEXT, weight INTEGER, power INTEGER)" ];

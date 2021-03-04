@@ -1,32 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
-import sendAsync from './renderer';
 import './forms.css';
 import './tables.css';
+
+const AppDAO = require('./database/database').default;
+const Crud = require('./database/dop').default;
 
 function Boats() {
   const [message, setMessage] = useState('SELECT * FROM boats');
   const [response, setResponse] = useState();
 
-  function send(sql) {
-    sendAsync(sql)
-        .then((result) => setResponse(result
-            .map((item, i) => [
-                <tr key={i}>
-                  <td>{item["PASSPORT"]}</td>
-                  <td>{item["NAME"]}</td>
-                  <td>{item["CONSTRUCTION_DATE"]}</td>
-                  <td>{item["WEIGHT"]}</td>
-                  <td>{item["POWER"]}</td>
-                  <td>
-                    <button>Редактировать</button>
-                    <button>Удалить</button>
-                  </td>
-                </tr>
-            ])));
-  }
+  const dao = new AppDAO('././public/db.sqlite3');
+  const db = new Crud(dao);
 
-  send(message);
+  const loadData = () => {
+    dao.all(message).then((data) => {
+      setResponse(data
+          .map((item, i) => [
+            <tr key={i}>
+              <td>{item["PASSPORT"]}</td>
+              <td>{item["NAME"]}</td>
+              <td>{item["CONSTRUCTION_DATE"]}</td>
+              <td>{item["WEIGHT"]}</td>
+              <td>{item["POWER"]}</td>
+              <td>
+                <button>Редактировать</button>
+                <button>Удалить</button>
+              </td>
+            </tr>
+          ]))
+    })
+
+  };
+
+  useEffect(() => {
+    loadData();
+  });
 
   return (
       <div className="App-container">
@@ -59,10 +68,6 @@ function Boats() {
               </tr>
               {(response && response)}
             </table>
-            <article>
-              <p>Main process responses:</p>
-              <br />
-            </article>
           </div>
         </div>
         <footer>Разработано Катковой А.А.</footer>
