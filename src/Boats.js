@@ -7,10 +7,18 @@ import './tables.css';
 function Boats() {
   const [message, setMessage] = useState('SELECT * FROM boats');
   const [response, setResponse] = useState();
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [recordToUpdate, setRecordToUpdate] = useState({
+    passport:"",
+    name: "",
+    "construction_date": "",
+    weight: null,
+    power: null
+  });
   const [post, setPost] = useState({
     passport:"",
     name: "",
-    "construction-date": "",
+    "construction_date": "",
     weight: null,
     power: null
   });
@@ -19,7 +27,7 @@ function Boats() {
 
   const currentDate = new Date().toISOString().split("T")[0];;
 
-  const submit = (e) => {
+  const onSubmit = (e) => {
     db
         .run(`INSERT INTO boats(
         passport, 
@@ -28,30 +36,59 @@ function Boats() {
         weight, 
         power) 
         VALUES(?, ?, ?, ?, ?)`,
-        [post.passport, post.name, post["construction-date"].split("-").reverse().join("."), post.weight, post.power]);
+        [post.passport, post.name, post["construction_date"].split("-").reverse().join("."), post.weight, post.power]);
+    e.preventDefault();
+  };
+
+  const onUpdate = (e) => {
+    let columns = [];
+    let values = [];
+    for (let key in post) {
+      if (post[key] !== recordToUpdate[key]) {
+        let newColumnRecord = post[key];
+        if (key === "construction_date") {
+          newColumnRecord = post[key].split("-").reverse().join(".");
+        }
+        columns.push(key + " = ?");
+        values.push(newColumnRecord);
+      }
+    }
+    values.push(recordToUpdate.passport);
+    const sql = `UPDATE boats 
+        SET 
+            ${columns.join(", ")}
+        WHERE 
+            passport = ?`;
+    db.run(sql, values).then(() => {setIsUpdating(false)});
     e.preventDefault();
   };
 
   const onDelete = (id) => {
-    db
-        .run(`DELETE FROM boats WHERE passport=?`,
-            [id]);
+    db.run(`DELETE FROM boats WHERE passport=?`, [id]);
   };
 
-  // const onUpdate = (id) => {
-  //   db.all(`SELECT *
-  //          FROM boats
-  //          WHERE passport  = ?`, id)
-  //       .then((data) => {
-  //     setPost({
-  //       passport:data["PASSPORT"],
-  //       name: data["NAME"],
-  //       "construction-date": data["CONSTRUCTION_DATE"],
-  //       weight: data["WEIGHT"],
-  //       power: data["POWER"]
-  //     })
-  //   })
-  // };
+  const onUpdateButtonClick = (id) => {
+    db.all(`SELECT *
+           FROM boats
+           WHERE passport  = ?`, id)
+        .then((data) => {
+              setPost({
+                passport:data[0]["PASSPORT"],
+                name: data[0]["NAME"],
+                "construction_date": data[0]["CONSTRUCTION_DATE"].split(".").reverse().join("-"),
+                weight: data[0]["WEIGHT"],
+                power: data[0]["POWER"]
+              });
+              setRecordToUpdate({
+                passport:data[0]["PASSPORT"],
+                name: data[0]["NAME"],
+                "construction_date": data[0]["CONSTRUCTION_DATE"].split(".").reverse().join("-"),
+                weight: data[0]["WEIGHT"],
+                power: data[0]["POWER"]
+              });
+              setIsUpdating(true);
+    })
+  };
 
   const loadData = () => {
     db.all(message).then((data) => {
@@ -64,7 +101,7 @@ function Boats() {
               <td className="db-table-cell">{item["WEIGHT"]}</td>
               <td className="db-table-cell">{item["POWER"]}</td>
               <td className="db-table-cell">
-                <button className="db-table-button" onClick={() => onUpdate(item["PASSPORT"])}>Редактировать</button>
+                <button className="db-table-button" onClick={() => onUpdateButtonClick(item["PASSPORT"])}>Редактировать</button>
                 <button className="db-table-button" onClick={() => onDelete(item["PASSPORT"])}>Удалить</button>
               </td>
             </tr>
@@ -84,7 +121,7 @@ function Boats() {
         </header>
         <div>
           <Link exact to="/" className="menu-link">Вернуться на главную</Link>
-          <form className="form-container" onSubmit={submit}>
+          <form className="form-container" onSubmit={isUpdating ? onUpdate : onSubmit}>
             <label htmlFor="passport">Паспорт №</label>
             <input
                 className="input"
@@ -111,8 +148,8 @@ function Boats() {
                 name="construction-date"
                 id="construction-date"
                 max={currentDate}
-                value={post["construction-date"]}
-                onChange={e => setPost({ ...post, "construction-date": e.target.value })} />
+                value={post["construction_date"]}
+                onChange={e => setPost({ ...post, "construction_date": e.target.value })} />
             <label htmlFor="weight">Вес</label>
             <input
                 className="input"
@@ -131,9 +168,12 @@ function Boats() {
                 placeholder="Мощность двигателя"
                 value={post.power}
                 onChange={e => setPost({ ...post, power: e.target.value })} />
-            <input className="submit" type="submit" value="Отправить" />
+            {isUpdating
+                ? <input className="submit" type="submit" value="Внести изменения" />
+                : <input className="submit" type="submit" value="Отправить" />}
           </form>
-          <button onClick={submit}>Click</button>
+          {/*{isUpdating ? <button onClick={onUpdate}>Click</button> : <button onClick={onSubmit}>Click</button>}*/}
+          {/*<button onClick={onSubmit}>Click</button>*/}
 
           <div className="table-container">
             <table className="db-table">
