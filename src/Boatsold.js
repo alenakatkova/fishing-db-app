@@ -4,7 +4,8 @@ import database from "./database/database";
 import './forms.css';
 import './tables.css';
 
-function Boats() {
+function BoatsOld() {
+  const [message, setMessage] = useState('SELECT * FROM boats');
   const [response, setResponse] = useState();
   const [isUpdating, setIsUpdating] = useState(false);
   const [recordToUpdate, setRecordToUpdate] = useState({
@@ -22,9 +23,9 @@ function Boats() {
     power: null
   });
 
-  const db = new database('././public/db.sqlite3'); // TODO fix path
+  const db = new database('././public/db.sqlite3');
 
-  const currentDate = new Date().toISOString().split("T")[0];
+  const currentDate = new Date().toISOString().split("T")[0];;
 
   const onSubmit = (e) => {
     db
@@ -191,4 +192,4 @@ function Boats() {
   );
 }
 
-export default Boats;
+export default BoatsOld;

@@ -8,7 +8,11 @@ class Database {
       } else {
         console.log('Connected to database')
       }
-    })
+    });
+  }
+
+  createTable(sql) {
+    return this.run(sql);
   }
 
   run(sql, params = []) {
@@ -41,7 +45,7 @@ class Database {
     })
   }
 
-  async all(sql, params = []) {
+  all(sql, params = []) {
     return new Promise((resolve, reject) => {
       this.db.all(sql, params, (err, rows) => {
         if (err) {
