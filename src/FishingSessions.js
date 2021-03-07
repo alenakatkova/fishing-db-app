@@ -8,6 +8,7 @@ import './tables.css';
 function FishingSessions() {
   const [rows, setRows] = useState([]);
   const [teams, setTeams] = useState([]);
+  // const [currentTeam, setCurrentTeam] = useState("");
   const [fishingSpots, setFishingSpots] = useState([]);
   const [trips, setTrips] = useState([]);
   const [isUpdating, setIsUpdating] = useState(false);
@@ -18,7 +19,8 @@ function FishingSessions() {
     haul: "",
     quality: "",
     fishing_spot_id: "",
-    trip_id: ""
+    trip_id: "",
+    team_id: ""
   });
   const [post, setPost] = useState({
     fishing_id: "",
@@ -27,7 +29,8 @@ function FishingSessions() {
     haul: "",
     quality: "",
     fishing_spot_id: "",
-    trip_id: ""
+    trip_id: "",
+    team_id: ""
   });
 
   const currentDate = new Date().toISOString().split("T")[0];
@@ -56,7 +59,40 @@ function FishingSessions() {
                 post.quality,
                 post.fishing_spot_id,
                 post.trip_id
-            ]);
+            ]).then(() => {
+      // db.all('SELECT team_id FROM fs_ts_trip WHERE trip_id = ?', [post.trip_id])
+      //     .then((data) => setCurrentTeam(data))
+      //     .then(() => {
+            let values = [];
+            const amountOfFishermen = teams[post.team_id].length;
+            for (let i = 0; i < amountOfFishermen; i++) {
+              values.push([
+                  Object.keys(teams[post.team_id][i])[0],
+                  teams[post.team_id][i][Object.keys(teams[post.team_id][i])],
+                  post.haul / amountOfFishermen,
+                  formatDateToTimestamp(post.start_date),
+                  formatDateToTimestamp(post.finish_date),
+                  post.trip_id
+              ])
+            }
+            return values;
+          })
+          .then(values => {
+            console.log(values);
+            debugger;
+            for (let i = 0; i < values.length; i++) {
+              db.run(`INSERT INTO fs_tt_fishing_by_worker(
+                  worker_id,
+                  full_name,
+                  haul,
+                  start_date,
+                  finish_date,
+                  trip_id)
+                  VALUES(?, ?, ?, ?, ?, ?)`, values[i]);
+            }
+
+          });
+    // });
   };
 
   const onUpdate = (e) => {
@@ -141,7 +177,7 @@ function FishingSessions() {
                 return [
                   <option
                       key={item.trip_id}
-                      value={item.trip_id}>
+                      value={`${item.trip_id} ${item.team_id}`}>
                     {"Рейс № " + item.trip_id + ", стартовавший " + formatDateFromTimestampForTrip(item.start_date)}
                   </option>
                 ];
@@ -189,8 +225,6 @@ function FishingSessions() {
         </header>
         <div>
           <Link exact to="/" className="menu-link">Вернуться на главную</Link>
-
-          {console.log(teams)}
           <form className="form-container" onSubmit={isUpdating ? onUpdate : onSubmit}>
             <label htmlFor="start_date">Дата прихода на точку</label>
             <input
@@ -239,7 +273,14 @@ function FishingSessions() {
 
             <label htmlFor="trip">Выход на лов</label>
             <div className="select">
-              <select size={2} id="trip" name="trip" onChange={e => setPost({ ...post, trip_id: e.target.value })}>
+              <select size={2} id="trip" name="trip" onChange={e => {
+                let ids = e.target.value.split(" ").map((item) => Number.parseInt(item));
+                setPost({
+                  ...post,
+                  trip_id: ids[0],
+                  team_id: ids[1]
+                })
+              }}>
                 {trips}
               </select>
             </div>

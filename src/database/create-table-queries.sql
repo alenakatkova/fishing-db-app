@@ -51,7 +51,7 @@
       FOREIGN KEY(trip_id) REFERENCES fs_tt_trip(trip_id)
     );
 
-    CREATE TABLE IF NOT EXISTS fs_tt_fishing_by_worker(
+CREATE TABLE IF NOT EXISTS fs_tt_fishing_by_worker(
       fishing_by_worker_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT
       fishing_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
       start_date INTEGER NOT NULL,
@@ -62,14 +62,15 @@
       trip_id INTEGER NOT NULL,
       FOREIGN KEY(fishing_spot_id) REFERENCES fs_ts_fishing_spot(fishing_spot_id),
       FOREIGN KEY(trip_id) REFERENCES fs_tt_trip(trip_id)
-    );
+);
 
-    CREATE TABLE IF NOT EXISTS fs_tt_fishing_by_worker(
-      worker_id TEXT NOT NULL PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS fs_tt_fishing_by_worker(
+      worker_id TEXT NOT NULL,
       start_date INTEGER NOT NULL,
       finish_date INTEGER NOT NULL,
+	  full_name TEXT NOT NULL,
       haul INTEGER NOT NULL,
-      FOREIGN KEY(worker_id) REFERENCES fs_ts_worker(worker_id),
-      FOREIGN KEY(start_date) REFERENCES fs_tt_fishing(start_datet),
-      FOREIGN KEY(finish_date) REFERENCES fs_tt_fishing(finish_datet)
- );
+	  trip_id INTEGER NOT NULL,
+      FOREIGN KEY(worker_id) REFERENCES fs_ts_worker(worker_id)
+	  FOREIGN KEY(trip_id) REFERENCES fs_tt_trip(trip_id)
+);
