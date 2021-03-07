@@ -23,10 +23,10 @@ function HomePageNavBar() {
           <section className="subsection">
             <h2>Формирование отчетов</h2>
             <ul className="menu">
-              <li><a className="menu-link">Катера по году постройки</a></li>
-              <li><a className="menu-link">Катера по количеству выходов на лов</a></li>
-              <li><a className="menu-link">Катера по мощности</a></li>
-              <li><a className="menu-link">Сотрудники с наибольшим уловом</a></li>
+              <li><Link to="/boats-by-year" className="menu-link">Катера по году постройки</Link></li>
+              <li><Link to="/boats-by-amount-of-trips" className="menu-link">Катера по количеству выходов на лов</Link></li>
+              <li><Link to="/boats-by-power" className="menu-link">Катера по мощности</Link></li>
+              <li><Link to="/workers-with-best-results" className="menu-link">Сотрудники с наибольшим уловом</Link></li>
             </ul>
           </section>
         </div>

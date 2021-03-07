@@ -38,3 +38,9 @@
     color: #6E6E6E;
     font-weight: 400;
 }
+
+.stat-container {
+    display: block;
+    width: 100%;
+    margin: 15px;
+}

@@ -11,6 +11,7 @@ import HomePage from "./HomePage";
 import FishingSpots from "./FishingSpots";
 import Workers from "./Workers";
 import Trips from "./Trips";
+import BoatsByYear from "./BoatsByYear";
 
 function App() {
   return (
@@ -19,7 +20,16 @@ function App() {
           <Route exact path="/">
             <HomePage />
           </Route>
-          <Route exact path="/boats">
+          <Route exact path="/boats-by-year">
+            <BoatsByYear />
+          </Route>
+          <Route exact path="/boats-by-amount-of-tripss">
+            <BoatsByYear />
+          </Route>
+          <Route exact path="/boats-by-power">
+            <BoatsByYear />
+          </Route>
+          <Route exact path="/workers-with-best-results">
             <Boats />
           </Route>
           <Route exact path="/workers">
