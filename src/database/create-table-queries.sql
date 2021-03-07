@@ -22,12 +22,11 @@
       first_name TEXT NOT NULL,
       patronym TEXT NOT NULL,
       birth_date INTEGER NOT NULL,
-      phone_number TEXT NOT NULL,
+      phone_number TEXT NOT NULL UNIQUE,
+      job TEXT NOT NULL,
       team_id INTEGER NOT NULL,
       FOREIGN KEY (team_id) 
       REFERENCES team (team_id)
-          ON UPDATE CASCADE
-          ON DELETE CASCADE
     );
 
     CREATE TABLE IF NOT EXISTS fs_tt_trip(

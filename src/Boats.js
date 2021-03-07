@@ -91,7 +91,7 @@ function Boats() {
                 name: data[0]["name"],
                 construction_date: formatDateFromTimestamp(data[0]["construction_date"]),
                 weight: data[0]["weight"],
-                power: data[0]["weight"]
+                power: data[0]["power"]
               });
               setRecordToUpdate({
                 boat_passport:data[0]["boat_passport"],

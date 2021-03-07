@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import HomePage from "./HomePage";
 import FishingSpots from "./FishingSpots";
+import Workers from "./Workers";
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
             <Boats />
           </Route>
           <Route exact path="/workers">
-            <Boats />
+            <Workers />
           </Route>
           <Route exact path="/teams">
             <Teams />

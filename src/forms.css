@@ -17,6 +17,13 @@ label {
     border-radius: 3px;
 }
 
+.select {
+    display: block;
+    width: 49%;
+    margin-bottom: 10px;
+    padding: 2px 0;
+}
+
 .submit {
     width: 30%;
     padding: 10px 5px;
