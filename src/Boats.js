@@ -6,31 +6,33 @@ import './forms.css';
 import './tables.css';
 
 function Boats() {
-  console.log("boats");
   const [response, setResponse] = useState([]);
   const [isUpdating, setIsUpdating] = useState(false);
   const [recordToUpdate, setRecordToUpdate] = useState({
     boat_passport:"",
     name: "",
-    construction_date: null,
+    construction_date: "",
     weight: null,
     power: null
   });
   const [post, setPost] = useState({
     boat_passport:"",
     name: "",
-    construction_date: null,
+    construction_date: "",
     weight: null,
     power: null
   });
 
   const currentDate = new Date().toISOString().split("T")[0];
 
+  const formatDateToTimestamp = (date) => {
+    let parsedDate = parse(date, 'yyyy-MM-dd', new Date());
+    let timestamp = parsedDate.getTime();
+    return timestamp;
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
-    let dateFromInput = parse(post["construction_date"], 'yyyy-MM-dd', new Date());
-    let timestamp = dateFromInput.getTime();
-      //  let timestamp = format(dateFromInput, "T");
     db
         .run(`INSERT INTO fs_ts_boat(
             boat_passport, 
@@ -42,7 +44,7 @@ function Boats() {
             [
                 post.boat_passport,
                 post.name,
-                timestamp,
+                formatDateToTimestamp(post["construction_date"]),
                 post.weight,
                 post.power
             ]);
@@ -56,7 +58,7 @@ function Boats() {
       if (post[key] !== recordToUpdate[key]) {
         let newColumnRecord = post[key];
         if (key === "construction_date") {
-          newColumnRecord = post[key].split("-").reverse().join(".");
+          newColumnRecord = formatDateToTimestamp(post["construction_date"]);
         }
         columns.push(key + " = ?");
         values.push(newColumnRecord);
