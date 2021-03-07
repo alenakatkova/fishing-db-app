@@ -13,8 +13,9 @@ function HomePageNavBar() {
             <nav>
               <ul className="menu">
                 <li><Link to="/boats" className="menu-link">Флотилия</Link></li>
-                <li><Link to="/workers" className="menu-link">Сотрудники</Link></li>
                 <li><Link to="/teams" className="menu-link">Команды</Link></li>
+                <li><Link to="/fishing-spots" className="menu-link">Рыболовные точки</Link></li>
+                <li><Link to="/workers" className="menu-link">Сотрудники</Link></li>
                 <li><Link to="/fishing-trips" className="menu-link">Выходы на лов</Link></li>
               </ul>
             </nav>

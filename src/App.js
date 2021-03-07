@@ -8,6 +8,7 @@ import {
     Route
 } from "react-router-dom";
 import HomePage from "./HomePage";
+import FishingSpots from "./FishingSpots";
 
 function App() {
   return (
@@ -24,6 +25,9 @@ function App() {
           </Route>
           <Route exact path="/teams">
             <Teams />
+          </Route>
+          <Route exact path="/fishing-spots">
+            <FishingSpots />
           </Route>
           <Route exact path="/fishing-trips">
             <Boats />
