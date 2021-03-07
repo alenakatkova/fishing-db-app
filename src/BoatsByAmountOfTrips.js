@@ -1,17 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import {db} from "./database/database";
-import { startOfToday } from 'date-fns';
+import {parse, startOfToday, sub} from 'date-fns';
 import './forms.css';
 import './tables.css';
 
 function BoatsByAmountOfTrips() {
   const [rows, setRows] = useState([]);
 
+
   const currentDate = startOfToday().getTime();
 
   useEffect(() => {
-    console.log(currentDate)
     db.all(`SELECT 
                     l.boat_passport,
                     r.name,

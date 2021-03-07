@@ -13,6 +13,7 @@ import Workers from "./Workers";
 import Trips from "./Trips";
 import BoatsByYear from "./BoatsByYear";
 import BoatsByAmountOfTrips from "./BoatsByAmountOfTrips";
+import BoatsByPower from "./BoatsByPower";
 
 function App() {
   return (
@@ -28,7 +29,7 @@ function App() {
             <BoatsByAmountOfTrips />
           </Route>
           <Route exact path="/boats-by-power">
-            <BoatsByYear />
+            <BoatsByPower />
           </Route>
           <Route exact path="/workers-with-best-results">
             <BoatsByYear />

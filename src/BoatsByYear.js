@@ -18,7 +18,7 @@ function BoatsByYear() {
     let timestamp = parsedDate.getTime();
     return timestamp;
   };
-  console.log(formatDateToTimestamp("2000"));
+
   const onSubmit = (e) => {
     e.preventDefault();
     db
