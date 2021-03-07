@@ -10,6 +10,7 @@ import {
 import HomePage from "./HomePage";
 import FishingSpots from "./FishingSpots";
 import Workers from "./Workers";
+import Trips from "./Trips";
 
 function App() {
   return (
@@ -31,7 +32,7 @@ function App() {
             <FishingSpots />
           </Route>
           <Route exact path="/fishing-trips">
-            <Boats />
+            <Trips />
           </Route>
         </Switch>
       </Router>
