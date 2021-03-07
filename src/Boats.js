@@ -142,6 +142,7 @@ function Boats() {
                 type="text"
                 name="passport"
                 id="passport"
+                pattern="[А-Я0-9]*"
                 placeholder="Номер паспорта"
                 value={post.boat_passport}
                 onChange={e => setPost({ ...post, boat_passport: e.target.value })}
@@ -171,6 +172,7 @@ function Boats() {
                 name="weight"
                 id="weight"
                 placeholder="Вес катера"
+                min={0}
                 value={post.weight}
                 onChange={e => setPost({ ...post, weight: e.target.value })} />
             <label htmlFor="power">Мощность двигателя</label>
@@ -181,6 +183,7 @@ function Boats() {
                 id="power"
                 placeholder="Мощность двигателя"
                 value={post.power}
+                min={0}
                 onChange={e => setPost({ ...post, power: e.target.value })} />
             {isUpdating
                 ? <input className="submit" type="submit" value="Внести изменения" />

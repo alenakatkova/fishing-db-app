@@ -1,28 +1,21 @@
-export const boatTableQuery = `
-    CREATE TABLE IF NOT EXISTS fs_ts_boat(
+ CREATE TABLE IF NOT EXISTS fs_ts_boat(
       boat_passport TEXT NOT NULL PRIMARY KEY, 
       name TEXT NOT NULL UNIQUE, 
       weight INTEGER NOT NULL,
       power INTEGER NOT NULL,
       construction_date INTEGER NOT NULL
     );
-`;
 
-export const teamTableQuery = `
     CREATE TABLE IF NOT EXISTS fs_ts_team(
       team_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, 
       name TEXT NOT NULL UNIQUE
     );
-`;
 
-export const fishingSpotTableQuery = `
     CREATE TABLE IF NOT EXISTS fs_ts_fishing_spot(
       fishing_spot_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, 
       name TEXT NOT NULL UNIQUE
     );
-`;
 
-export const workerTableQuery = `
     CREATE TABLE IF NOT EXISTS fs_ts_worker(
       worker_id TEXT NOT NULL PRIMARY KEY,
       surname TEXT NOT NULL,
@@ -36,9 +29,7 @@ export const workerTableQuery = `
           ON UPDATE CASCADE
           ON DELETE CASCADE
     );
-`;
 
-export const tripTableQuery = `
     CREATE TABLE IF NOT EXISTS fs_tt_trip(
       trip_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
       start_date INTEGER NOT NULL,
@@ -48,9 +39,7 @@ export const tripTableQuery = `
       FOREIGN KEY(team_id) REFERENCES team(team_id),
       FOREIGN KEY(boat_passport) REFERENCES boat(boat_passport)
     );
-`;
 
-export const fishingTableQuery = `
     CREATE TABLE IF NOT EXISTS fs_tt_fishing(
       fishing_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
       start_date INTEGER NOT NULL,
@@ -62,4 +51,3 @@ export const fishingTableQuery = `
       FOREIGN KEY(fishing_spot_id) REFERENCES fishing_spot(fishing_spot_id),
       FOREIGN KEY(trip_id) REFERENCES trip(trip_id)
     );
-`;
