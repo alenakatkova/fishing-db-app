@@ -26,18 +26,18 @@ import {
 // });
 
 function App() {
-  const setDatabase = () => {
-    const db = new database('././public/db.sqlite3');
-    // db.createTable(boatTableQuery + teamTableQuery + fishingSpotTableQuery + workerTableQuery + tripTableQuery + fishingTableQuery);
-    db.createTable(boatTableQuery);
-    db.createTable(teamTableQuery);
-    db.createTable(fishingSpotTableQuery);
-    db.createTable(workerTableQuery);
-    db.createTable(tripTableQuery);
-    db.createTable(fishingTableQuery);
-  };
-
-  setDatabase();
+  // const setDatabase = () => {
+  //   const db = new database('././public/db.sqlite3');
+  //   // db.createTable(boatTableQuery + teamTableQuery + fishingSpotTableQuery + workerTableQuery + tripTableQuery + fishingTableQuery);
+  //   db.createTable(boatTableQuery);
+  //   db.createTable(teamTableQuery);
+  //   db.createTable(fishingSpotTableQuery);
+  //   db.createTable(workerTableQuery);
+  //   db.createTable(tripTableQuery);
+  //   db.createTable(fishingTableQuery);
+  // };
+  //
+  // setDatabase();
 
   return (
       <Router>

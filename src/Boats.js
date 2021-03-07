@@ -1,45 +1,55 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from "react-router-dom";
-import database from "./database/database";
+import React, {useEffect, useState} from 'react';
+import {Link} from "react-router-dom";
+import {db} from "./database/database";
+import { format, parse } from 'date-fns';
 import './forms.css';
 import './tables.css';
 
 function Boats() {
-  const [response, setResponse] = useState();
+  console.log("boats");
+  const [response, setResponse] = useState([]);
   const [isUpdating, setIsUpdating] = useState(false);
   const [recordToUpdate, setRecordToUpdate] = useState({
-    passport:"",
+    boat_passport:"",
     name: "",
-    "construction_date": "",
+    construction_date: null,
     weight: null,
     power: null
   });
   const [post, setPost] = useState({
-    passport:"",
+    boat_passport:"",
     name: "",
-    "construction_date": "",
+    construction_date: null,
     weight: null,
     power: null
   });
 
-  const db = new database('././public/db.sqlite3'); // TODO fix path
-
   const currentDate = new Date().toISOString().split("T")[0];
 
   const onSubmit = (e) => {
-    db
-        .run(`INSERT INTO boats(
-        passport, 
-        name, 
-        construction_date, 
-        weight, 
-        power) 
-        VALUES(?, ?, ?, ?, ?)`,
-        [post.passport, post.name, post["construction_date"].split("-").reverse().join("."), post.weight, post.power]);
     e.preventDefault();
+    let dateFromInput = parse(post["construction_date"], 'yyyy-MM-dd', new Date());
+    let timestamp = dateFromInput.getTime();
+      //  let timestamp = format(dateFromInput, "T");
+    db
+        .run(`INSERT INTO fs_ts_boat(
+            boat_passport, 
+            name, 
+            construction_date, 
+            weight, 
+            power) 
+            VALUES(?, ?, ?, ?, ?)`,
+            [
+                post.boat_passport,
+                post.name,
+                timestamp,
+                post.weight,
+                post.power
+            ]);
   };
 
   const onUpdate = (e) => {
+    e.preventDefault();
     let columns = [];
     let values = [];
     for (let key in post) {
@@ -52,66 +62,69 @@ function Boats() {
         values.push(newColumnRecord);
       }
     }
-    values.push(recordToUpdate.passport);
-    const sql = `UPDATE boats 
+    values.push(recordToUpdate.boat_passport);
+    const sql = `UPDATE fs_ts_boat 
         SET 
             ${columns.join(", ")}
         WHERE 
-            passport = ?`;
+            boat_passport = ?`;
     db.run(sql, values).then(() => {setIsUpdating(false)});
-    e.preventDefault();
   };
 
   const onDelete = (id) => {
-    db.run(`DELETE FROM boats WHERE passport=?`, [id]);
+    db.run(`DELETE FROM fs_ts_boat WHERE boat_passport=?`, [id]);
+  };
+
+  const formatDateFromTimestamp = (timestamp) => {
+    return format(new Date(timestamp), "yyyy-MM-dd");
   };
 
   const onUpdateButtonClick = (id) => {
     db.all(`SELECT *
-           FROM boats
-           WHERE passport  = ?`, id)
+           FROM fs_ts_boat
+           WHERE boat_passport  = ?`, id)
         .then((data) => {
               setPost({
-                passport:data[0]["PASSPORT"],
-                name: data[0]["NAME"],
-                "construction_date": data[0]["CONSTRUCTION_DATE"].split(".").reverse().join("-"),
-                weight: data[0]["WEIGHT"],
-                power: data[0]["POWER"]
+                boat_passport:data[0]["boat_passport"],
+                name: data[0]["name"],
+                construction_date: formatDateFromTimestamp(data[0]["construction_date"]),
+                weight: data[0]["weight"],
+                power: data[0]["weight"]
               });
               setRecordToUpdate({
-                passport:data[0]["PASSPORT"],
-                name: data[0]["NAME"],
-                "construction_date": data[0]["CONSTRUCTION_DATE"].split(".").reverse().join("-"),
-                weight: data[0]["WEIGHT"],
-                power: data[0]["POWER"]
+                boat_passport:data[0]["boat_passport"],
+                name: data[0]["name"],
+                construction_date: formatDateFromTimestamp(data[0]["construction_date"]),
+                weight: data[0]["weight"],
+                power: data[0]["power"]
               });
               setIsUpdating(true);
     })
   };
 
-  const loadData = () => {
-    db.all('SELECT * FROM boats').then((data) => {
-      setResponse(data
-          .map((item, i) => [
-            <tr key={item["PASSPORT"]}>
-              <td className="db-table-cell">{item["PASSPORT"]}</td>
-              <td className="db-table-cell">{item["NAME"]}</td>
-              <td className="db-table-cell">{item["CONSTRUCTION_DATE"]}</td>
-              <td className="db-table-cell">{item["WEIGHT"]}</td>
-              <td className="db-table-cell">{item["POWER"]}</td>
-              <td className="db-table-cell">
-                <button className="db-table-button" onClick={() => onUpdateButtonClick(item["PASSPORT"])}>Редактировать</button>
-                <button className="db-table-button" onClick={() => onDelete(item["PASSPORT"])}>Удалить</button>
-              </td>
-            </tr>
-          ]))
-    })
-
-  };
-
   useEffect(() => {
-    loadData();
-  });
+    db.all('SELECT * FROM fs_ts_boat')
+        .then((data) => {
+          setResponse(data
+              .map((item) => {
+                return [
+                  <tr key={item["boat_passport"]}>
+                    <td className="db-table-cell">{item["boat_passport"]}</td>
+                    <td className="db-table-cell">{item["name"]}</td>
+                    <td className="db-table-cell">{format(new Date(item["construction_date"]), "dd.MM.yyyy")}</td>
+                    <td className="db-table-cell">{item["weight"]}</td>
+                    <td className="db-table-cell">{item["power"]}</td>
+                    <td className="db-table-cell">
+                      <button className="db-table-button"
+                              onClick={() => onUpdateButtonClick(item["boat_passport"])}>Редактировать
+                      </button>
+                      <button className="db-table-button" onClick={() => onDelete(item["boat_passport"])}>Удалить</button>
+                    </td>
+                  </tr>
+                ];
+              }))
+        })
+  }, [setResponse]);
 
   return (
       <div className="App-container">
@@ -128,8 +141,8 @@ function Boats() {
                 name="passport"
                 id="passport"
                 placeholder="Номер паспорта"
-                value={post.passport}
-                onChange={e => setPost({ ...post, passport: e.target.value })}
+                value={post.boat_passport}
+                onChange={e => setPost({ ...post, boat_passport: e.target.value })}
             />
             <label htmlFor="name">Название</label>
             <input
@@ -148,11 +161,11 @@ function Boats() {
                 id="construction-date"
                 max={currentDate}
                 value={post["construction_date"]}
-                onChange={e => setPost({ ...post, "construction_date": e.target.value })} />
+                onChange={e => {setPost({ ...post, "construction_date": e.target.value })}} />
             <label htmlFor="weight">Вес</label>
             <input
                 className="input"
-                type="text"
+                type="number"
                 name="weight"
                 id="weight"
                 placeholder="Вес катера"
@@ -161,7 +174,7 @@ function Boats() {
             <label htmlFor="power">Мощность двигателя</label>
             <input
                 className="input"
-                type="text"
+                type="number"
                 name="power"
                 id="power"
                 placeholder="Мощность двигателя"
@@ -182,7 +195,7 @@ function Boats() {
                 <th className="db-table-header">Мощность двигателя</th>
                 <th className="db-table-header">Кнопки управления</th>
               </tr>
-              {(response && response)}
+              {response}
             </table>
           </div>
         </div>

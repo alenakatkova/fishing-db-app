@@ -2,6 +2,7 @@ const sqlite3 = window.require('sqlite3');
 
 class Database {
   constructor(dbFilePath) {
+    console.log("constuctor database");
     this.db = new sqlite3.Database(dbFilePath, (err) => {
       if (err) {
         console.log('Could not connect to database', err)
@@ -59,5 +60,5 @@ class Database {
     })
   }
 }
-
-export default Database;
+export const db = new Database('././public/db.sqlite3');
+//export Database;
