@@ -12,15 +12,15 @@ function Boats() {
     boat_passport:"",
     name: "",
     construction_date: "",
-    weight: null,
-    power: null
+    weight: "",
+    power: ""
   });
   const [post, setPost] = useState({
     boat_passport:"",
     name: "",
     construction_date: "",
-    weight: null,
-    power: null
+    weight: "",
+    power: ""
   });
 
   const currentDate = new Date().toISOString().split("T")[0];
@@ -189,15 +189,19 @@ function Boats() {
 
           <div className="table-container">
             <table className="db-table">
-              <tr className="db-table-row">
-                <th className="db-table-header">Номер паспорта</th>
-                <th className="db-table-header">Название</th>
-                <th className="db-table-header">Дата постройки</th>
-                <th className="db-table-header">Вес</th>
-                <th className="db-table-header">Мощность двигателя</th>
-                <th className="db-table-header">Кнопки управления</th>
-              </tr>
-              {response}
+              <thead>
+                <tr className="db-table-row">
+                  <th className="db-table-header">Номер паспорта</th>
+                  <th className="db-table-header">Название</th>
+                  <th className="db-table-header">Дата постройки</th>
+                  <th className="db-table-header">Вес</th>
+                  <th className="db-table-header">Мощность двигателя</th>
+                  <th className="db-table-header">Кнопки управления</th>
+                </tr>
+              </thead>
+              <tbody>
+                {response}
+              </tbody>
             </table>
           </div>
         </div>
