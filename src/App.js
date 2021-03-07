@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import Boats from "./Boats";
+import Teams from "./Teams";
 import {
     HashRouter as Router,
     Switch,
@@ -22,7 +23,7 @@ function App() {
             <Boats />
           </Route>
           <Route exact path="/teams">
-            <Boats />
+            <Teams />
           </Route>
           <Route exact path="/fishing-trips">
             <Boats />
