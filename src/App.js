@@ -12,6 +12,7 @@ import FishingSpots from "./FishingSpots";
 import Workers from "./Workers";
 import Trips from "./Trips";
 import BoatsByYear from "./BoatsByYear";
+import BoatsByAmountOfTrips from "./BoatsByAmountOfTrips";
 
 function App() {
   return (
@@ -23,13 +24,16 @@ function App() {
           <Route exact path="/boats-by-year">
             <BoatsByYear />
           </Route>
-          <Route exact path="/boats-by-amount-of-tripss">
-            <BoatsByYear />
+          <Route exact path="/boats-by-amount-of-trips">
+            <BoatsByAmountOfTrips />
           </Route>
           <Route exact path="/boats-by-power">
             <BoatsByYear />
           </Route>
           <Route exact path="/workers-with-best-results">
+            <BoatsByYear />
+          </Route>
+          <Route exact path="/boats">
             <Boats />
           </Route>
           <Route exact path="/workers">
