@@ -52,19 +52,6 @@
     );
 
 CREATE TABLE IF NOT EXISTS fs_tt_fishing_by_worker(
-      fishing_by_worker_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT
-      fishing_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-      start_date INTEGER NOT NULL,
-      finish_date INTEGER NOT NULL,
-      haul INTEGER NOT NULL,
-      quality TEXT NOT NULL,
-      fishing_spot_id INTEGER NOT NULL,
-      trip_id INTEGER NOT NULL,
-      FOREIGN KEY(fishing_spot_id) REFERENCES fs_ts_fishing_spot(fishing_spot_id),
-      FOREIGN KEY(trip_id) REFERENCES fs_tt_trip(trip_id)
-);
-
-CREATE TABLE IF NOT EXISTS fs_tt_fishing_by_worker(
       worker_id TEXT NOT NULL,
       start_date INTEGER NOT NULL,
       finish_date INTEGER NOT NULL,

@@ -4,7 +4,7 @@ class Database {
   constructor(dbFilePath) {
     this.db = new sqlite3.Database(dbFilePath, (err) => {
       if (err) {
-        console.log('Could not connect to database', err);
+        console.error('Impossible to connect to DB', err);
       } else {
         console.log('Connected to database');
       }
@@ -15,8 +15,8 @@ class Database {
     return new Promise((resolve, reject) => {
       this.db.run(sql, params, (err, row) => {
         if (err) {
-          console.log('Error running sql ' + sql);
-          console.log(err);
+          console.error('Error running sql ' + sql);
+          console.error(err);
           reject(err);
         }
         else {
