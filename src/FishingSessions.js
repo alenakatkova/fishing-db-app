@@ -8,7 +8,6 @@ import './tables.css';
 function FishingSessions() {
   const [rows, setRows] = useState([]);
   const [teams, setTeams] = useState([]);
-  // const [currentTeam, setCurrentTeam] = useState("");
   const [fishingSpots, setFishingSpots] = useState([]);
   const [trips, setTrips] = useState([]);
   const [isUpdating, setIsUpdating] = useState(false);
@@ -60,9 +59,6 @@ function FishingSessions() {
                 post.fishing_spot_id,
                 post.trip_id
             ]).then(() => {
-      // db.all('SELECT team_id FROM fs_ts_trip WHERE trip_id = ?', [post.trip_id])
-      //     .then((data) => setCurrentTeam(data))
-      //     .then(() => {
             let values = [];
             const amountOfFishermen = teams[post.team_id].length;
             for (let i = 0; i < amountOfFishermen; i++) {
@@ -78,8 +74,6 @@ function FishingSessions() {
             return values;
           })
           .then(values => {
-            console.log(values);
-            debugger;
             for (let i = 0; i < values.length; i++) {
               db.run(`INSERT INTO fs_tt_fishing_by_worker(
                   worker_id,
@@ -92,7 +86,6 @@ function FishingSessions() {
             }
 
           });
-    // });
   };
 
   const onUpdate = (e) => {
