@@ -14,6 +14,7 @@ import Trips from "./Trips";
 import BoatsByYear from "./BoatsByYear";
 import BoatsByAmountOfTrips from "./BoatsByAmountOfTrips";
 import BoatsByPower from "./BoatsByPower";
+import FishingSessions from "./FishingSessions";
 
 function App() {
   return (
@@ -48,6 +49,9 @@ function App() {
           </Route>
           <Route exact path="/fishing-trips">
             <Trips />
+          </Route>
+          <Route exact path="/fishing-sessions">
+            <FishingSessions />
           </Route>
         </Switch>
       </Router>

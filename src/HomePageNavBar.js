@@ -17,6 +17,7 @@ function HomePageNavBar() {
                 <li><Link to="/fishing-spots" className="menu-link">Рыболовные точки</Link></li>
                 <li><Link to="/workers" className="menu-link">Сотрудники</Link></li>
                 <li><Link to="/fishing-trips" className="menu-link">Выходы на лов</Link></li>
+                <li><Link to="/fishing-sessions" className="menu-link">Лов на рыболовных точках</Link></li>
               </ul>
             </nav>
           </section>
